@@ -3,14 +3,15 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 class Order(object):
 	orders = []
-	def create_order(self, destination_addr, pickup_addr,recipient_name,recipient_id,item_type,weight,status,name):
+	def create_order(self, destination_addr, pickup_addr,recipient_name,recipient_id,item_type,weight,order_status,payment_status,name):
 		self.destination_addr = destination_addr
 		self.pickup_addr = pickup_addr
 		self.recipient_name = recipient_name
 		self.recipient_id = recipient_id
 		self.item_type = item_type
 		self.weight = weight
-		self.status = status
+		self.order_status = order_status
+		self.payment_status = payment_status
 		self.name = name
 
 		payload  ={
@@ -21,7 +22,8 @@ class Order(object):
 		"recipient_id":self.recipient_id,
 		"item_type":self.item_type,
 		"weight":self.weight,
-		"status":self.status,
+		"order_status":self.order_status,
+		"payment_status":self.payment_status,
 		"name":self.name
 		}
 
@@ -47,18 +49,16 @@ class Order(object):
 				return order
 			return "No such order"
 
-
 	def cancel_order(self, order_id):
 		for order in Order.orders:
 			if order["order_id"] == order_id:
-				order['status'] = 'canceled'
+				order['order_status'] = 'canceled'
 				return True
 
 	def get_user_orders(self, name):
 		orders = [order for order in Order.orders
                    if order['name'] == name]
 		return orders	
-
 
 class User_model(object):
 	fields = []

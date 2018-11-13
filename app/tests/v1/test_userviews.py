@@ -14,7 +14,7 @@ class ParcelModelCase(unittest.TestCase):
 
         self.request_1 = json.dumps({"destination_address":"Nairobi", "pickup_address":"Kisumu", 
         "recipient_name":"keynote", "recipient_id":"316459", "item_type":"parcel", "weight":"65kg", "name":"keynote",
-        "status":"canceled"})
+        "payment_status": "Not paid", "order_status":"canceled"})
         self.request_2 = json.dumps({
             "username":"Keynote", "email":"vik@gmail.com", "password":"pass", "con_password":"pass", "role":"admin"
         })
@@ -108,14 +108,13 @@ class ParcelModelCase(unittest.TestCase):
         assert res.status_code == 400
 
     def test_payment_status(self):
-       
-        res = self.client.put("/api/v1/users/1/paid", data=self.data_1, content_type='application/json')
+        res = self.client.put("/api/v1/users/paid/1", data=self.data_1, content_type='application/json')
         output = json.loads(res.data.decode())
         assert output['message'] == 'order paid!'
         assert res.status_code == 200
 
     def test_delivered_status(self):
-        res = self.client.put("/api/v1/users/1/delivered", data=self.data_1, content_type='application/json')
+        res = self.client.put("/api/v1/users/delivered/1", data=self.data_1, content_type='application/json')
         output = json.loads(res.data.decode())
         assert output['message'] == 'order has been delivered!'
         assert res.status_code == 200        

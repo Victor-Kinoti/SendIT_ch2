@@ -23,10 +23,8 @@ class Admin_user_all_Order(Resource):
 	"""Gets all orders of a certain user
 	param name
 	return:jsonified response of the order
-	"""
-		
+	"""	
 	def get(self, name):
-
 		try:
 			name = str(name)
 		except Exception:
