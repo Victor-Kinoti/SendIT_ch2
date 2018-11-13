@@ -1,1 +1,58 @@
-# SendIT_ch2
+[![Build Status](https://travis-ci.com/Victor-Kinoti/SendIT.svg?branch=ch-tests-161805245)](https://travis-ci.com/Victor-Kinoti/SendIT)
+
+
+SendIT is a courier service that helps users deliver parcels to different destinations. 
+### Features:
+
+1. New user can create an account for sendit app
+
+2. User signed up can login/logout
+
+3. User can create a parcel delivery order
+
+4. User can get history of parcel orders
+
+5. User can get specific parcel order by ID
+
+6. User can cancel an order not yet delivered
+
+7. User can update destination of an order
+
+8. Admin can get orders of a specific user
+
+
+## Installing
+* Create and activate a virtual enviroment:
+
+`pip install virtualenv`
+
+**activate:**
+
+`virtualenv env`
+
+`source env/bin/activate` on your terminal
+
+## Clone Sendit repo
+`git clone https://github.com/Victor-Kinoti/SendIT.git` on your terminal
+
+install dependencies:
+
+`pip install -r requirements.txt` in the root folder 
+
+
+| Method        | URL/Endpoint          | output  |
+| ------------- |:-------------:| -----:|
+| POST| api/v1/register| registers new user |
+| POST| api/v1/login|   logs in a registered user|
+| GET | api/v1/parcels|gets all user parcels|
+| GET | api/v1/parcels/order_id|gets specific order|
+| PUT | api/v1/parcels/order_id/cancel|cancels specific order|
+| GET | api/v1/users/parcels|admin gets all orders|
+| GET | api/v1/users/<name>/parcels|admin gets specific user's orders|
+| PUT | api/v1/users/<user_id>/delivered|admin sets order to status delivered|
+| PUT | api/v1/users/<user_id>/paid|admin sets order to status Paid|
+
+***manually test using postman***
+
+**Heroku site** [Here](https://sendit-keynote.herokuapp.com)
+
