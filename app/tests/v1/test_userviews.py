@@ -52,12 +52,7 @@ class ParcelModelCase(unittest.TestCase):
         resp = json.loads(res.get_data())
         assert res.status_code == 200              
 
-    def test_cancel_order(self):
-        res = self.client.put('/api/v1/parcels/1/cancel', data=json.dumps(request_1), \
-        content_type='application/json')
-        output = json.loads(res.data.decode())
-        assert res.status_code == 201
-        self.assertEqual(output['Status'], 'order has been canceled')
+
 
     def test_invalid_order_id_cancels(self):
         res = self.client.put('/api/v1/parcels/s/cancel', data=json.dumps(request_1), \
