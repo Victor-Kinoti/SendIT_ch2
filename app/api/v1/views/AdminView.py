@@ -79,4 +79,4 @@ class admin_update_payment_status(Resource):
 			return make_response(jsonify({"message": "order paid!"}),200)
 		return make_response(jsonify({
 			'Status':'Not Found'
-		}))
+		}),400)

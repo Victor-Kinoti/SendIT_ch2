@@ -3,29 +3,28 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 class Order(object):
 	orders = []
-	def create_order(self, destination_addr, pickup_addr,recipient_name,recipient_id,item_type,weight,order_status,payment_status,name):
-		self.destination_addr = destination_addr
-		self.pickup_addr = pickup_addr
-		self.recipient_name = recipient_name
-		self.recipient_id = recipient_id
-		self.item_type = item_type
-		self.weight = weight
-		self.order_status = order_status
-		self.payment_status = payment_status
-		self.name = name
+	def create_order(self, data):
+		self.destination_addr = data['destination_address']
+		self.pickup_addr = data['pickup_address']
+		self.recipient_name = data['recipient_name']
+		self.recipient_id = data['recipient_id']
+		self.item_type = data['item_type']
+		self.weight = data['weight']
+		self.name = data['name']
 
 		payload  ={
-		"order_id": str(uuid.uuid4().int),
+		"order_id": uuid.uuid4().int >> 64,
 		"destination_address":self.destination_addr,
 		"pickup_address":self.pickup_addr,
 		"recipient_name":self.recipient_name,
 		"recipient_id":self.recipient_id,
 		"item_type":self.item_type,
 		"weight":self.weight,
-		"order_status":self.order_status,
-		"payment_status":self.payment_status,
+		"order_status":"In transit",
+		"payment_status":"Not Paid",
 		"name":self.name
 		}
+		print(type(payload['order_id']))
 
 		Order.orders.append(payload)
 		return True
@@ -62,12 +61,12 @@ class Order(object):
 
 class User_model(object):
 	fields = []
-	def create_user(self, email, username, password, con_password, role):
-		self.email = email
-		self.username = username 
-		self.password = password
-		self.con_password = con_password
-		self.role = role
+	def create_user(self, data):
+		self.email = data['email']
+		self.username = data['username'] 
+		self.password = data['password']
+		self.con_password = data['con_password']
+		self.role = data['role']
 
 
 		payload={
