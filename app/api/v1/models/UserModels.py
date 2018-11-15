@@ -2,6 +2,7 @@ import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class Order(object):
+	"""Model that creates an order"""
 	orders = []
 	def create_order(self, data):
 		self.destination_addr = data['destination_address']
@@ -43,18 +44,21 @@ class Order(object):
 				return item
 
 	def get_one_user_orders(self, name):
+		"""Model to get all orders of a certain user"""
 		for order in Order.orders:
 			if order['name'] == name:
 				return order
 			return "No such order"
 
 	def cancel_order(self, order_id):
+		"""Model to cancel an order that exists"""
 		for order in Order.orders:
 			if order["order_id"] == order_id:
 				order['order_status'] = 'canceled'
 				return True
 
 	def get_user_orders(self, name):
+		"""Model to get all orders of a certain user"""
 		orders = [order for order in Order.orders
                    if order['name'] == name]
 		return orders	
@@ -62,6 +66,7 @@ class Order(object):
 class User_model(object):
 	fields = []
 	def create_user(self, data):
+		"""Model to create new user"""
 		self.email = data['email']
 		self.username = data['username'] 
 		self.password = data['password']
@@ -81,6 +86,7 @@ class User_model(object):
 		return True
 
 	def login_user(self, email, password, role):
+		"""Model that allow registered user to login"""
 		self.email = email
 		self.password = password,
 		self.role = role

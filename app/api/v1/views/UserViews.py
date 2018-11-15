@@ -8,6 +8,7 @@ class DataParcel(Resource):
 	"""Utilizes data from an order by either getting all 
 	data or posting new data"""
 	def post(self):
+		"""Create an order"""
 		data = request.get_json() or {}
 
 		if 'destination_address' not in data or 'pickup_address'\
@@ -55,6 +56,7 @@ class DataParcel(Resource):
 		return result
 		
 class SingleParcel(Resource):
+	"""gets a single order"""
 	def get(self, order_id):
 
 		try:
@@ -79,6 +81,7 @@ class SingleParcel(Resource):
 		
 class CancelOrder(Resource):
 	def put(self, order_id):
+		"""cancels an order that exists"""
 		data = request.get_json()
 		try:
 			order_id = int(order_id)
@@ -100,6 +103,7 @@ class CancelOrder(Resource):
 		"Order doesn't exist"}),400)
 
 class RegisterUser(Resource):
+	"""This class creates a new user"""
 	def post(self):		
 			
 		data = request.get_json() or {}
@@ -139,6 +143,7 @@ class RegisterUser(Resource):
 		return result
 
 class UserLogin(Resource):
+	"""Logs in an existing user"""
 	def post(self):
 		data = request.get_json()
 		if 'email' not in data:

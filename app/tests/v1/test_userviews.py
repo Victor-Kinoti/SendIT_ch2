@@ -8,6 +8,7 @@ from ...api.v1.views import UserViews
 from ...api.v1.models.UserModels import Order
 
 class ParcelModelCase(unittest.TestCase):
+    """main test class"""
     def setUp(self):
         self.app = create_app()
         self.client = self.app.test_client()
@@ -15,6 +16,7 @@ class ParcelModelCase(unittest.TestCase):
         self.app_context.push()        
 
     def test_create_order(self):
+        """Tests if an order has been created"""
         res = self.client.post('/api/v1/parcels', \
         data=json.dumps(request_1), \
         content_type='application/json')
@@ -24,11 +26,13 @@ class ParcelModelCase(unittest.TestCase):
         assert res.status_code == 201
 
     def test_get_all_orders(self):
+        """Test get all functionality of an order"""
         res = self.client.get('/api/v1/parcels')
         self.assertTrue(res.status_code, 200)
 
 
     def test_get_order_invalid_id(self):
+        """Test when an invalid id is provided"""
         res = self.client.get('/api/v1/parcels/v')
         resp = json.loads(res.get_data())
         assert res.status_code == 400
@@ -36,12 +40,14 @@ class ParcelModelCase(unittest.TestCase):
         assert "Provide a valid order id" in resp["Message"]
 
     def test_specific_order_not_found(self):
+        """Test when an specific order is not found"""
         res = self.client.get('/api/v1/parcels/333')
         resp = json.loads(res.get_data())
         assert "Not Found" in resp['Status']
         assert res.status_code == 404
 
     def test_one_user_data_not_found(self):
+        """Test when orders of a specific user not found"""
         res = self.client.get('/api/v1/users/keyvk/parcels')
         resp = json.loads(res.get_data())
         assert "Not Found" in resp['Status']
@@ -49,6 +55,7 @@ class ParcelModelCase(unittest.TestCase):
         assert res.status_code == 400 
 
     def test_one_user_data_found(self):
+        """Tests when orders of specific user are found"""
         res = self.client.post("/api/v1/parcels",\
          data=json.dumps(request_1), \
         content_type='application/json')
@@ -59,6 +66,7 @@ class ParcelModelCase(unittest.TestCase):
 
 
     def test_invalid_order_id_cancels(self):
+        """Test canceling an invalid order"""
         res = self.client.put('/api/v1/parcels/s/cancel', \
         data=json.dumps(request_1), \
         content_type='application/json')
@@ -69,6 +77,7 @@ class ParcelModelCase(unittest.TestCase):
 
 
     def test_register_user(self):
+        """Test registering a new user"""
         res = self.client.post("/api/v1/register",\
          data=json.dumps(request_2), \
         content_type='application/json')
@@ -78,6 +87,7 @@ class ParcelModelCase(unittest.TestCase):
         assert output['Status'] == 'User created'
 
     def test_role_admin_user_only(self):
+        """Test roles provided"""
         res = self.client.post("/api/v1/register", \
         data=json.dumps(request_9), \
         content_type='application/json')
@@ -87,6 +97,7 @@ class ParcelModelCase(unittest.TestCase):
         assert output['Message'] == 'Roles can be either Admin or User'
 
     def test_pass_not_matching(self):
+        """Test password and con_password not matching"""
         res = self.client.post("/api/v1/register",\
          data=json.dumps(request_3), \
         content_type='application/json')
@@ -97,6 +108,7 @@ class ParcelModelCase(unittest.TestCase):
         assert res.status_code == 400
 
     def test_username_missing(self):
+        """Test username is not provided"""
         res = self.client.post("/api/v1/register",\
          data=json.dumps(request_4), \
         content_type='application/json')
@@ -108,6 +120,7 @@ class ParcelModelCase(unittest.TestCase):
         
 
     def test_password_missing(self):
+        """Test password not provided"""
         res = self.client.post("/api/v1/register", \
         data=json.dumps(request_5), \
         content_type='application/json')
@@ -118,6 +131,7 @@ class ParcelModelCase(unittest.TestCase):
         assert res.status_code == 400
 
     def test_user_login(self):
+        """Test registered user login"""
         res = self.client.post("/api/v1/login", \
         data=json.dumps(request_6), \
         content_type='application/json')
@@ -127,6 +141,7 @@ class ParcelModelCase(unittest.TestCase):
         assert res.content_type == 'application/json;charset=utf-8'
 
     def test_email_is_valid(self):
+        """Test valid email format"""
         res = self.client.post("/api/v1/register",\
          data=json.dumps(request_8), \
         content_type='application/json')
@@ -135,8 +150,8 @@ class ParcelModelCase(unittest.TestCase):
         assert output['message'] == "wrong email format"
 
 
-
     def test_email_missing(self):
+        """Test email not provided"""
         res = self.client.post("/api/v1/register", \
         data=json.dumps(request_7), \
         content_type='application/json')
@@ -146,6 +161,7 @@ class ParcelModelCase(unittest.TestCase):
         assert res.status_code == 400
 
     def test_payment_status(self):
+        """Test when payment status is updated"""
         res = self.client.put("/api/v1/users/paid/1",\
          data=json.dumps(data_1), \
         content_type='application/json')
@@ -154,6 +170,7 @@ class ParcelModelCase(unittest.TestCase):
         assert res.status_code == 200
 
     def test_delivered_status(self):
+        """Test when delivered status is updated"""
         res = self.client.put("/api/v1/users/delivered/1",\
          data=json.dumps(data_1), \
         content_type='application/json')
@@ -162,6 +179,7 @@ class ParcelModelCase(unittest.TestCase):
         assert res.status_code == 200
 
     def test_address_fields(self):
+        """Test all addresses are provided"""
         res = self.client.post("/api/v1/parcels", \
         data=json.dumps(data_3), \
         content_type='application/json')
@@ -171,6 +189,7 @@ class ParcelModelCase(unittest.TestCase):
         assert res.status_code == 400
 
     def test_recipient_fields_missing(self):
+        """Test all recipeint fields are available"""
         res = self.client.post("/api/v1/parcels",\
          data=json.dumps(data_4), \
         content_type='application/json')
