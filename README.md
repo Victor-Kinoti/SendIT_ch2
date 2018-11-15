@@ -54,7 +54,7 @@ install dependencies:
 
 ***manually test using postman***
 
-Here's the [documentation](https://documenter.getpostman.com/view/5866871/RzZAkybV) on how to consume the API on a local machine. New users need to Register then Login
+Here's the [documentation](https://documenter.getpostman.com/view/4146964/RzZAme6q) on how to consume the API on a local machine. New users need to Register then Login
 
 **Heroku site** [Here](https://sendit-keynote.herokuapp.com)
 
