@@ -5,20 +5,29 @@ from flask import make_response, jsonify, request, abort
 from email.utils import parseaddr
 
 class DataParcel(Resource):
-	"""Utilizes data from an order by either getting all data or posting new data"""
+	"""Utilizes data from an order by either getting all 
+	data or posting new data"""
 	def post(self):
 		data = request.get_json() or {}
 
-		if 'destination_address' not in data or 'pickup_address' not in data:
-			abort(make_response(jsonify(message="ensure to provide the addresses"),400))
-		if 'recipient_name' not in data:
-			abort(make_response(jsonify(message="recipient_name missing"),400))
-		if 'recipient_id' not in data:
-			abort(make_response(jsonify(message="recipient_id missing"),400))
-		if 'item_type' not in data:
-			abort(make_response(jsonify(message="item_type missing"),400))
-		if 'weight' not in data:
-			abort(make_response(jsonify(message="weight missing"),400))		
+		if 'destination_address' not in data or 'pickup_address'\
+			not in data or data['destination_address'].isalpha()==False\
+		 	or data['pickup_address'].isalpha()==False:
+			abort(make_response(jsonify(message=\
+			"ensure to provide the addresses in correct format"),400))
+		
+
+
+		if 'recipient_name' not in data or 'recipient_id' not in data\
+		or data['recipient_name'].isalpha()==False:
+			abort(make_response(jsonify(message=\
+		"recipient_name or recipient_id missing or wrong data format"),400))
+
+		if 'item_type' not in data or 'weight' not in data or\
+		data['item_type'] != 'parcel' and data['item_type'] != 'envelope':
+			abort(make_response(jsonify(message=\
+			"item_type/weight missing or data type wrong format"),400))
+
 		if len(data)==0:
 			abort(make_response(jsonify(message="Fill in the fields"),400))
 
@@ -78,29 +87,45 @@ class CancelOrder(Resource):
 				"Message":"Provide a valid order id",
 				"Status": "bad request"
 			}),400)
-		if data["order_id"]:
-			if order_id:		
+		if order_id is not None:
+			order_id = str(order_id)
+			print(data['order_id'])
+			if order_id == data['order_id']:
 				order_1 = Order()
 				order_1.cancel_order(order_id)
-				return make_response(jsonify({'Status': 'order has been canceled'}),201)
-			return make_response(jsonify({"Status": "Order doesn't exist"}),400)
+				return make_response(jsonify({'Status': \
+				'order has been canceled'}),201)
+			
+		return make_response(jsonify({"Status": \
+		"Order doesn't exist"}),400)
 
 class RegisterUser(Resource):
 	def post(self):		
 			
 		data = request.get_json() or {}
 
-		if 'username'not in data or 'email' not in data or 'password' not in data\
+		if 'username'not in data or 'email' not in data or\
+					 'password' not in data\
 		 or 'con_password' not in data or 'role' not in data:
-			abort(make_response(jsonify(message="Some or all fields are missing"),400))
+			abort(make_response(jsonify(message=\
+			"Some or all fields are missing"),400))
+
+		if data['role'] != 'Admin' and data['role'] != 'User':
+			abort(make_response(jsonify({"Message":\
+			"Roles can be either Admin or User"}),400))
 
 		if data['password'] != data['con_password']:
-			abort(make_response(jsonify(message="Password and confirm password not matching"),400))
+			abort(make_response(jsonify(message=\
+			"Password and confirm password not matching"),400))
+
 		if not validate_email(data['email']):
-			abort(make_response(jsonify(message="wrong email format"),400))
+			abort(make_response(jsonify(message=\
+			"wrong email format"),400))
+
 			
 		if len(data)==0:
-			abort(make_response(jsonify(message="Fill in the fields"),400))
+			abort(make_response(jsonify(message=\
+			"Fill in the fields"),400))
 		
 		user_1 = User_model()
 		user_1.create_user(data)
@@ -117,13 +142,17 @@ class UserLogin(Resource):
 	def post(self):
 		data = request.get_json()
 		if 'email' not in data:
-			abort(make_response(jsonify(message="Email missing"),400))
+			abort(make_response(jsonify(message=\
+			"Email missing"),400))
 		if 'password' not in data:
-			abort(make_response(jsonify(message="Password missing"),400))
+			abort(make_response(jsonify(message=\
+			"Password missing"),400))
 		if 'role' not in data:
-			abort(make_response(jsonify(message="Please check a role"),400))
+			abort(make_response(jsonify(message=\
+			"Please check a role"),400))
 		if len(data)==0:
-			abort(make_response(jsonify(message="Fill in the fields"),400))
+			abort(make_response(jsonify(message=\
+			"Fill in the fields"),400))
 
 		user_1 = User_model()
 		user_1.login_user(
