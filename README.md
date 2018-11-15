@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.com/Victor-Kinoti/SendIT.svg?branch=ch-tests-161805245)](https://travis-ci.com/Victor-Kinoti/SendIT)
-
+[![Coverage Status](https://coveralls.io/repos/github/Victor-Kinoti/SendIT_ch2/badge.svg?branch=reviews)](https://coveralls.io/github/Victor-Kinoti/SendIT_ch2?branch=reviews)
+[![Maintainability](https://api.codeclimate.com/v1/badges/cc4addaa0ed3bff16ae3/maintainability)](https://codeclimate.com/github/Victor-Kinoti/SendIT_ch2/maintainability)
 
 SendIT is a courier service that helps users deliver parcels to different destinations. 
 ### Features:
@@ -53,6 +54,8 @@ install dependencies:
 | PUT | api/v1/users/<user_id>/paid|admin sets order to status Paid|
 
 ***manually test using postman***
+
+Here's the [documentation](https://documenter.getpostman.com/view/4146964/RzZAme6q) on how to consume the API on a local machine. New users need to Register then Login
 
 **Heroku site** [Here](https://sendit-keynote.herokuapp.com)
 

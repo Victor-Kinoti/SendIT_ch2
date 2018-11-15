@@ -49,6 +49,7 @@ class Admin_user_all_Order(Resource):
 		}),400)
 
 class admin_update_order_status(Resource):
+	"""updates an status of an order"""
 	def put(self, user_id):
 		try:
 			user_id = str(user_id)
@@ -66,6 +67,7 @@ class admin_update_order_status(Resource):
 		}))
 
 class admin_update_payment_status(Resource):
+	"""updates payment status of an order"""
 	def put(self, user_id):
 		try:
 			user_id = str(user_id)
@@ -79,4 +81,4 @@ class admin_update_payment_status(Resource):
 			return make_response(jsonify({"message": "order paid!"}),200)
 		return make_response(jsonify({
 			'Status':'Not Found'
-		}))
+		}),400)

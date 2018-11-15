@@ -6,14 +6,12 @@ version1 = Blueprint('v1', __name__,  url_prefix = '/api/v1')
 
 api = Api(version1)
 
-##user routes
 api.add_resource(DataParcel, '/parcels')
 api.add_resource(SingleParcel, '/parcels/<order_id>')
 api.add_resource(CancelOrder, '/parcels/<order_id>/cancel')
 api.add_resource(RegisterUser, "/register")
 api.add_resource(UserLogin, '/login')
-#admin routes
 api.add_resource(Admin_all_Orders, '/users/parcels')
 api.add_resource(Admin_user_all_Order, '/users/<name>/parcels')
-api.add_resource(admin_update_order_status, '/users/<user_id>/delivered')
-api.add_resource(admin_update_payment_status, '/users/<user_id>/paid')
+api.add_resource(admin_update_order_status, '/users/delivered/<user_id>')
+api.add_resource(admin_update_payment_status, '/users/paid/<user_id>')
