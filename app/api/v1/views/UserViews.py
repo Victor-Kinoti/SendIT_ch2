@@ -166,6 +166,12 @@ class UserLogin(Resource):
 			abort(make_response(jsonify(message=\
 			"Fill in the fields"),400))
 
+
+		for item in User_model.fields:
+			if data['email'] == item['email']:
+				abort(make_response(jsonify(message=\
+			"User already logged in"),400))
+
 		user_1 = User_model()
 		user_1.login_user(
 			data["email"],
