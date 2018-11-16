@@ -14,7 +14,6 @@ class Order(object):
         self.item_type = data['item_type']
         self.weight = data['weight']
         self.name = data['name']
-        self.order_status = data["order_status"]
 
         payload = {
             "order_id": uuid.uuid4().int >> 64,
@@ -24,7 +23,7 @@ class Order(object):
             "recipient_id": self.recipient_id,
             "item_type": self.item_type,
             "weight": self.weight,
-            "order_status": self.order_status,
+            "order_status": "In-transit",
             "payment_status": "Not Paid",
             "name": self.name
         }
